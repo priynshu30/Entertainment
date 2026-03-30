@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const TMDB_API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
-const SERVER_URL = 'http://localhost:5000/api/bookmarks';
+const SERVER_URL = import.meta.env.VITE_API_URL + '/api/bookmarks';
 
 // Debug logging
 console.log('🔑 TMDB API Key Status:', TMDB_API_KEY && TMDB_API_KEY !== 'your_actual_tmdb_api_key' ? '✅ SET' : '❌ NOT SET or PLACEHOLDER');
