@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #FC4747;
+  --color-dark: #10141E;
+  --color-semi-dark: #161D2F;
+  --color-grey: #5A698F;
+  --color-light: #FFFFFF;
+}
+
+body {
+  @apply bg-dark text-white font-sans;
+}
+
+.glass-card {
+  @apply bg-semi-dark/80 backdrop-blur-md rounded-xl border border-white/10;
+}
+
+.btn-primary {
+  @apply bg-primary hover:bg-white hover:text-dark transition-all duration-300 py-3 px-6 rounded-lg font-medium;
+}
+
+.nav-link {
+  @apply text-grey hover:text-primary transition-colors duration-200 cursor-pointer;
+}
+
+.nav-link-active {
+  @apply text-white;
+}

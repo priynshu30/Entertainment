@@ -1,0 +1,58 @@
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchTVSeries, fetchBookmarks } from '../features/movieSlice';
+import MovieCard from '../components/MovieCard';
+import SearchBar from '../components/SearchBar';
+
+const TVSeriesPage = () => {
+    const dispatch = useDispatch();
+    const { tvSeries, status, error } = useSelector((state) => state.movie);
+    const [searchQuery, setSearchQuery] = useState('');
+
+    useEffect(() => {
+        dispatch(fetchTVSeries());
+        dispatch(fetchBookmarks());
+    }, [dispatch]);
+
+    const filteredTV = tvSeries.filter((item) => 
+        (item.name || '').toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    return (
+        <div className="animate-in slide-in-from-bottom duration-500">
+            <SearchBar setSearchQuery={setSearchQuery} placeholder="Search for TV series" />
+            <section>
+                <h2 className="text-2xl lg:text-3xl font-light mb-6 tracking-tight">
+                    {searchQuery ? `Found ${filteredTV.length} results for '${searchQuery}'` : 'TV Series'}
+                </h2>
+                
+                {error && (
+                    <div className="bg-red-500/20 border border-red-500 rounded-lg p-4 mb-6">
+                        <p className="text-red-300">Error: {error}</p>
+                        <p className="text-sm text-grey mt-2">Check browser console for details</p>
+                    </div>
+                )}
+                
+                {status === 'loading' && (
+                    <div className="text-center py-12">
+                        <p className="text-grey">Loading TV series...</p>
+                    </div>
+                )}
+                
+                {tvSeries.length === 0 && status !== 'loading' && !error && (
+                    <div className="text-center py-12">
+                        <p className="text-grey">No TV series to display</p>
+                    </div>
+                )}
+                
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-10">
+                    {filteredTV.map((item) => (
+                        <MovieCard key={item.id} item={item} />
+                    ))}
+                </div>
+            </section>
+        </div>
+    );
+};
+
+export default TVSeriesPage;
